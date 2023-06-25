@@ -37,7 +37,7 @@ function App() {
   return (
     <>
       <h1>Champion challenge</h1>
-      <p>Antall spilt: {playedCounter}</p>
+      <p>Antall spilt: {playedCounter} / {champions.length}</p>
       <input type="text" className="search" value={search} onChange={(e) => setSearch(e.target.value.toLowerCase())} placeholder="Søk etter champ..." />
       <div className="container">
         {list}
