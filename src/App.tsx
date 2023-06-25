@@ -1,46 +1,52 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import compiled from './data/compiled.json';
+import ChampionCard from './Components/ChampionCard/ChampionCard';
 
-interface IChampion {
+export type Result = "win" | "loss";
+export type Position = "top" | "jungle" | "mid" | "bot" | "support";
+export interface Champion {
   id: string;
   name: string;
+  played?: boolean;
+  result?: Result;
+  position?: Position;
 }
 
-interface IPlayed {
-  [key: string]: boolean;
-}
-
-function App() {
-
-  const [champions, _] = useState<IChampion[]>(compiled);
-  const [played, setPlayed] = useState<IPlayed>(JSON.parse(localStorage.getItem("played") || "{}"));
+const App = () => {
   const [search, setSearch] = useState('');
+  const [champions, setChampions] = useState<Champion[]>(() => {
+    const saved = localStorage.getItem("playedChampions");
+    if (saved) {
+      return JSON.parse(saved);
+    }
+    return compiled.map((c) => ({ ...c, played: false, result: "", position: "" }))
+  });
 
-  const toggleChecked = (id: string) => {
-    const newPlayed = { ...played, [id]: !played[id] }
-    setPlayed(newPlayed);
-    localStorage.setItem("played", JSON.stringify(newPlayed));
+  const championPlayedChange = (champion: Champion) => {
+    setChampions(champions.map((c) => c.id === champion.id ? { ...c, played: champion.played } : c));
   }
 
-  const list = champions.filter(champion => champion.name.toLowerCase().includes(search)).map(c => {
-    const background = played[c.id] ? "card played" : "card";
-    return (
-      <div key={c.id} className={background} onClick={() => toggleChecked(c.id)}>
-        <input type="checkbox" className="checkbox" checked={played[c.id] || false} onChange={() => toggleChecked(c.id)} />
-        <label>{c.name}</label>
-      </div>)
-  })
+  useEffect(() => {
+    localStorage.setItem("playedChampions", JSON.stringify(champions));
+  }, [champions]);
 
-  const playedCounter = Object.values(played).reduce((count, value) => value ? count + 1 : count, 0);
+  const playerCounter = champions.filter(p => p.played).length;
+
+  const cardList = champions.filter((c) => c.name.toLowerCase().includes(search.toLowerCase())).map((champion) => (
+    <ChampionCard key={champion.id}
+      champion={champion}
+      onChampionPlayed={championPlayedChange}
+    />
+  ));
 
   return (
     <>
-      <h1>Champion challenge</h1>
-      <p>Antall spilt: {playedCounter} / {champions.length}</p>
+      <h1>Champion Challenge</h1>
+      <p>Antall spilt: {playerCounter} / {compiled.length}</p>
       <input type="text" className="search" value={search} onChange={(e) => setSearch(e.target.value.toLowerCase())} placeholder="Søk etter champ..." />
-      <div className="container">
-        {list}
+      <div className="cardContainer">
+        {cardList}
       </div>
     </>
   )

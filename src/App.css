@@ -5,49 +5,17 @@
 
 #root {
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
-  padding: 50px;
   padding-top: 0;
-}
-
-.container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 h1 {
   font-weight: 400;
   font-size: 40px !important;
   margin: 10px;
-}
-
-.card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #ccc;
-  padding: 1rem;
-  border-radius: 8px;
-  position: relative; /* legg til denne */
-  height: 40px;
-}
-
-.card:hover {
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.checkbox {
-  position: absolute; /* endre til denne */ /* posisjon fra toppen */
-  left: 20px; /* posisjon fra venstre */
-  transform: scale(1.5); /* endre størrelsen */
-}
-
-.played {
-  background-color: rgb(60, 115, 60);
-  border: 1px solid rgb(155, 191, 155);
 }
 
 .search {
@@ -59,4 +27,12 @@ h1 {
   border: 2px solid #ccc;
   border-radius: 4px;
   margin-bottom: 30px;
+}
+
+.cardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
 }

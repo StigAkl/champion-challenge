@@ -1,0 +1,118 @@
+.card {
+  width: 200px;
+  border-radius: 10px;
+  border: 1px solid rgb(220, 220, 220);
+  flex: 1 0 200px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.win {
+  background-color: #1c3a1c;
+}
+
+.loss {
+  background-color: rgb(63, 13, 13);
+}
+
+@media (max-width: 1200px) {
+  .card {
+    flex: 1 0 150px;
+  }
+}
+
+@media (max-width: 900px) {
+  .card {
+    flex: 1 0 100px;
+  }
+}
+
+.name {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+
+.select-container {
+  text-align: center;
+  position: relative;
+  width: 100px;
+  height: 26px;
+  overflow: hidden;
+  color: white;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.select-container:hover {
+  cursor: pointer;
+}
+
+.select-dropdown {
+  position: relative;
+  width: 100px;
+  height: 30px;
+  padding: 5px;
+  border: none;
+  outline: none;
+  background: transparent;
+  z-index: 1;
+  background: #556370;
+  line-height: 200px;
+  color: white;
+}
+
+.select-dropdown:hover {
+  cursor: pointer;
+}
+
+.select-container:after {
+  content: "\25BC";
+  position: absolute;
+  top: 0;
+  cursor: pointer;
+  pointer-events: none;
+  transition: 0.25s all ease;
+  z-index: 1;
+}
+
+.error {
+  border: 1px solid red;
+}
+
+button.setplayed {
+  border-radius: 8px;
+  border: 1px solid rgb(2, 54, 2);
+  padding: 3px;
+  font-size: 16px;
+  font-family: inherit;
+  background-color: #2a832a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  margin-bottom: 10px;
+  width: 80px;
+  color: rgb(233, 233, 233);
+}
+
+button.setunplayed {
+  border-radius: 8px;
+  border: none;
+  padding: 3px;
+  font-size: 16px;
+  font-family: inherit;
+  background-color: rgb(31, 105, 158);
+  cursor: pointer;
+  transition: border-color 0.25s;
+  margin-bottom: 10px;
+  width: 80px;
+}
+
+button:hover {
+  font-weight: bold;
+}
+
+.result {
+  margin-bottom: 24px;
+}
