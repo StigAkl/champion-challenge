@@ -1,0 +1,51 @@
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  padding: 2rem;
+  border-radius: 8px;
+  position: relative; /* legg til denne */
+  height: 40px;
+  flex-direction: column;
+}
+
+.card:hover {
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid rgb(255, 255, 255);
+}
+
+.checkbox {
+  transform: scale(1.5); /* endre størrelsen */
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.won {
+  background-color: rgb(60, 115, 60);
+  border: 1px solid rgb(155, 191, 155);
+}
+
+.loss {
+  background-color: rgb(169, 60, 35);
+  border: 1px solid rgb(98, 75, 29);
+}
+
+.champion-label {
+  margin-left: 5px;
+}
+
+.result-select {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  margin: 10px;
+  width: 100px;
+  font-family: Arial;
+}
+
+select > option {
+  font-size: 16px;
+  padding: 20px;
+}

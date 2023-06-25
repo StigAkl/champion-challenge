@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import './App.css'
 import compiled from './data/compiled.json';
+import Card from './components/Card';
 
-interface IChampion {
+export interface IChampion {
   id: string;
   name: string;
 }
 
-interface IPlayed {
+export interface IPlayed {
   [key: string]: boolean;
 }
 
@@ -17,19 +18,16 @@ function App() {
   const [played, setPlayed] = useState<IPlayed>(JSON.parse(localStorage.getItem("played") || "{}"));
   const [search, setSearch] = useState('');
 
-  const toggleChecked = (id: string) => {
-    const newPlayed = { ...played, [id]: !played[id] }
+  const toggleChecked = (id: string, hasPlayed: boolean) => {
+    const newPlayed = { ...played, [id]: hasPlayed }
+    console.log("Setting: ", newPlayed, hasPlayed)
     setPlayed(newPlayed);
     localStorage.setItem("played", JSON.stringify(newPlayed));
+    console.log(played);
   }
 
   const list = champions.filter(champion => champion.name.toLowerCase().includes(search)).map(c => {
-    const background = played[c.id] ? "card played" : "card";
-    return (
-      <div key={c.id} className={background} onClick={() => toggleChecked(c.id)}>
-        <input type="checkbox" className="checkbox" checked={played[c.id] || false} onChange={() => toggleChecked(c.id)} />
-        <label>{c.name}</label>
-      </div>)
+    return <Card key={c.id} champion={c} played={played[c.id]} setPlayed={toggleChecked} />
   })
 
   const playedCounter = Object.values(played).reduce((count, value) => value ? count + 1 : count, 0);
