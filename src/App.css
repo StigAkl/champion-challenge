@@ -1,0 +1,48 @@
+#root {
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  width: 100vh;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+  position: relative; /* legg til denne */
+}
+
+.card:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.checkbox {
+  position: absolute; /* endre til denne */ /* posisjon fra toppen */
+  left: 10px; /* posisjon fra venstre */
+  transform: scale(1.5); /* endre størrelsen */
+}
+
+.played {
+  background-color: rgb(37, 73, 37);
+}
+
+.search {
+  width: 50%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 30px;
+}
