@@ -16,9 +16,11 @@ const ChampionCard = ({ champion, onChampionPlayed }: Props) => {
   const cardBackground = getCardBackground(champion, error);
 
   const handlePlayButtonClick = () => {
-
     if (champion.played) {
-      return onChampionPlayed({ ...champion, played: false, position: undefined, result: undefined })
+      const newChamp: Champion = { ...champion, position: "none", result: undefined, played: false };
+      setResult(undefined);
+      setPosition(undefined);
+      return onChampionPlayed(newChamp)
     }
 
     if (!position || !result) {
@@ -26,49 +28,42 @@ const ChampionCard = ({ champion, onChampionPlayed }: Props) => {
       return alert(createErrorMessage(result, position));
     }
 
-    champion.played = true;
-    champion.position = position;
-    champion.result = result;
+    onChampionPlayed({ ...champion, played: true, position, result });
     setError(false);
-
-    onChampionPlayed(champion);
   }
 
-  const renderSelect = () => {
-    return (
-      <>
-        <div className={`select-container`}>
-          <select className="select-dropdown"
-            onChange={(e) => setResult(e.target.value as Result)}>
-            <option value="" disabled selected hidden>Resultat</option>
-            <option value="win">Vinn</option>
-            <option value="loss">Tap</option>
-          </select>
-        </div>
-        <div className="select-container">
-          <select className="select-dropdown"
-            placeholder="Posisjon"
-            onChange={(e) => setPosition(e.target.value as Position)}>
-            <option value="" disabled selected hidden>Posisjon</option>
-            <option value="top">Top</option>
-            <option value="jungle">Jungle</option>
-            <option value="mid">Mid</option>
-            <option value="bot">Bot</option>
-            <option value="support">Support</option>
-          </select>
-        </div>
-      </>
-    )
-  }
-
-  const renderResult = () => {
-    return (
-      <div className="result">
-        <p>Resultat: {champion.result === "win" ? "Vinn" : "Tap"}</p>
-        <p>Posisjon: {champion.position}</p>
+  const renderSelect = () => (
+    <>
+      <div className={`select-container`}>
+        <select className="select-dropdown"
+          value={result}
+          onChange={(e) => setResult(e.target.value as Result)}>
+          <option value="" disabled hidden>Resultat</option>
+          <option value="win">Vinn</option>
+          <option value="loss">Tap</option>
+        </select>
       </div>
-    )
-  }
+      <div className="select-container">
+        <select className="select-dropdown"
+          value={position}
+          onChange={(e) => setPosition(e.target.value as Position)}>
+          <option value="" disabled hidden>Posisjon</option>
+          <option value="top">Top</option>
+          <option value="jungle">Jungle</option>
+          <option value="mid">Mid</option>
+          <option value="bot">Bot</option>
+          <option value="support">Support</option>
+        </select>
+      </div>
+    </>
+  )
+
+  const renderResult = () => (
+    <div className="result">
+      <p>Resultat: {champion.result === "win" ? "Vinn" : "Tap"}</p>
+      <p>Posisjon: {champion.position}</p>
+    </div>
+  )
 
   return (
     <div className={`card ${cardBackground}`}>
@@ -79,34 +74,25 @@ const ChampionCard = ({ champion, onChampionPlayed }: Props) => {
   )
 }
 
-const renderButton = (champion: Champion, callback: () => void) => {
-  return champion.played ?
-    <button className="setunplayed" onClick={callback}>Fjern</button>
-    :
-    <button className="setplayed" onClick={callback}>Ferdig</button>
-};
+const renderButton = (champion: Champion, callback: () => void) => (
+  champion.played
+    ? <button className="setunplayed" onClick={callback}>Fjern</button>
+    : <button className="setplayed" onClick={callback}>Ferdig</button>
+);
 
 const createErrorMessage = (result?: string, position?: string) => {
-  let error = "";
-  if (!position && result) error += "posisjon";
-  if (!result && position) error += "resultat";
-  if (!result && !position) error += "resultat og posisjon";
-  return "Du må velge " + error;
+  const errors = [];
+  if (!position) errors.push("posisjon");
+  if (!result) errors.push("resultat");
+
+  return errors.length > 0 ? `Du må velge ${errors.join(' og ')}` : '';
 }
 
 const getCardBackground = (champion: Champion, error: boolean) => {
-  let styling = "";
-
-  if (error) {
-    styling += "error ";
-  }
   if (!champion.played)
-    return styling;
+    return error ? "error" : "";
 
-  if (champion.result === "loss")
-    return styling + "loss";
-
-  return styling + "win";
+  return ` ${error ? "error" : ""} ${champion.result === "loss" ? "loss" : "win"}`;
 }
 
 export default ChampionCard;
